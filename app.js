@@ -5,10 +5,10 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const userRouter = require("./routers/users.router.cjs");
 const bookRouter = require("./routers/book.router.cjs");
-const categoryRouter = require("./routers/category.router.cjs")
-const reviewRouter = require("./routers/review.router.cjs")
-const cartRouter = require("./routers/cart.router.cjs")
-const orderRouter = require("./routers/order.router.cjs")
+const categoryRouter = require("./routers/category.router.cjs");
+const reviewRouter = require("./routers/review.router.cjs");
+const cartRouter = require("./routers/cart.router.cjs");
+const orderRouter = require("./routers/order.router.cjs");
 
 // 🚨 1. استدعاء الكنترولر الخاص بالأوردرات عشان نستخدم الدالة هنا
 const orderController = require("./controllers/order.controller.cjs");
@@ -23,7 +23,7 @@ app.use(cors());
 app.post(
   "/webhook",
   express.raw({ type: "application/json" }),
-  orderController.webhookCheckout
+  orderController.webhookCheckout,
 );
 
 // 3. أي مسار تاني تحت السطر ده هيتحول لـ JSON عادي جداً
@@ -50,21 +50,22 @@ app.get("/", (req, res) => {
 });
 
 app.use("/", userRouter);
-app.use("/", bookRouter)
-app.use("/", categoryRouter)
-app.use("/", reviewRouter)
-app.use("/", cartRouter)
-app.use("/", orderRouter)
+app.use("/", bookRouter);
+app.use("/", categoryRouter);
+app.use("/", reviewRouter);
+app.use("/", cartRouter);
+app.use("/", orderRouter);
 
 // صائد الأخطاء العام - بيصطاد أي مشكلة ويبعتها لـ Postman
 app.use((err, req, res, next) => {
   console.log("Error details:", err);
-  res.status(500).json({ 
-    message: "Server Error", 
-    error: err.message || err 
+  res.status(500).json({
+    message: "Server Error",
+    error: err.message || err,
   });
 });
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+module.exports = app;
